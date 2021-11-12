@@ -1,0 +1,1 @@
+# Am reusit sa transmitem mesaje intre un producer si consumer din consola.
