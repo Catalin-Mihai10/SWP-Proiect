@@ -19,5 +19,4 @@ class userManager implements userManagerInterface{
 
         return null;
     }
-
 }
