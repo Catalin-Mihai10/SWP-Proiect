@@ -4,6 +4,12 @@ class MessageHandler implements IMessageHandler{
 
     public MessageHandler() {}
 
+    @Override
+    public String sendMessage(String message, String user){
+        return message;
+    }
+
+    @Override
     public String getMessage(){
         return message;
     }
@@ -11,7 +17,7 @@ class MessageHandler implements IMessageHandler{
     //TODO: create a return type of the message. May be String or defined enum.
     private void HandleMessageType() {}
 
-    private bool verifyQueue() {
+    private boolean verifyQueue() {
         return true;
     }
 }
