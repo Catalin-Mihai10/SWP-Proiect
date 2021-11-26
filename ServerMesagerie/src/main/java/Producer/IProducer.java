@@ -1,5 +1,7 @@
-interface IProducer{
+package Producer;
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 
-    public IProducer() {}
-    public void sendMessage(String message, String user);
+interface IProducer{
+    public void sendMessage(String message, String user) throws IOException, TimeoutException;
 }
