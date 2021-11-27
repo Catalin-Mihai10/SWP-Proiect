@@ -9,16 +9,24 @@ import java.util.concurrent.TimeoutException;
 class Producer implements IProducer{
     //private MessageHandler messageHandler;
 
-    public Producer(){
-    }
+    private Connection producerConnection;
+    private Channel producerChannel;
 
-    public void sendMessage(String message, String user) throws IOException, TimeoutException{
+    public Producer() throws IOException, TimeoutException {
         ConnectionFactory producerFactory = new ConnectionFactory();
         producerFactory.setHost("localhost");
-        try(Connection producerConnection = producerFactory.newConnection()){
-            Channel producerChannel = producerConnection.createChannel();
-            producerChannel.queueDeclare(user, false, false, false, null);
-            //messageHandler.sendMessage(this.producerChannel, message, user);
-        }
+
+        producerConnection = producerFactory.newConnection();
+        producerChannel = producerConnection.createChannel();
+    }
+
+    @Override
+    public void sendMessage(String message, String user) throws IOException, TimeoutException{
+            //messageHandler.sendMessage(producerChannel, message, user);
+    }
+
+    @Override
+    public void closeConnection() throws IOException{
+        producerConnection.close();
     }
 }
