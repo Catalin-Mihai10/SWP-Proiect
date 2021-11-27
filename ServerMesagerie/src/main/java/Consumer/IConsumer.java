@@ -1,5 +1,6 @@
-interface IConsumer{
+package Consumer;
 
-    public IConsumer() {}
+interface IConsumer{
     public Sring getMessage();
+    public void closeConnection() throws IOException;
 }
