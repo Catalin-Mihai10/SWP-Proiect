@@ -13,7 +13,7 @@ class Consumer implements IConsumer{
     private Channel consumerChannel;
     private String message = "";
 
-    public Consumer() {
+    public Consumer() throws IOException, TimeoutException{
         ConnectionFactory consumerFactory = new ConnectionFactory();
         consumerFactory.setHost("localhost");
 
