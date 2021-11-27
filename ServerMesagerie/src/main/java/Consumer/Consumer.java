@@ -6,7 +6,7 @@ import com.rabbitmq.client.Channel;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-class Consumer implements IConsumer{
+public class Consumer implements IConsumer{
     //private MessageHandler messageHandler;
 
     private Connection consumerConnection;
@@ -19,6 +19,7 @@ class Consumer implements IConsumer{
 
         consumerConnection = consumerFactory.newConnection();
         consumerChannel = consumerConnection.createChannel();
+        consumerChannel.queueDeclare("consumer", false, false, false, null);
     }
 
     public String getMessage(){
@@ -29,5 +30,9 @@ class Consumer implements IConsumer{
     @Override
     public void closeConnection() throws IOException{
         consumerConnection.close();
+    }
+
+    public Channel getConsumerChannel(){
+        return consumerChannel;
     }
 }
