@@ -1,19 +1,25 @@
 package Server;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.concurrent.*;
 
-public class Server {
-    List<Producer> producers = new ArrayList<Producer>();
-    List<Consumer> consumers = new ArrayList<Consumer>();
-    UserManager userManager = new UserManager();
-    ClientModule clientModule = new ClientModule();
-    MessageHandler messageHandler = new MessageHandler();
+public final class Server {
 
-    public Server(){
+    private static Server server_instance = null;
 
+    private static UserManager userManager = new UserManager();
+    private static Map<Integer, ClientModule> clients = new ConcurrentHashMap<Integer, ClientModule>();
+    private static Integer id = 0;
+
+    private Server(){
+
+    }
+
+    public static Server getInstance(){
+        if(server_instance == null)
+            server_instance = new Server();
+        return server_instance;
     }
 
     public void run(){
@@ -29,23 +35,49 @@ public class Server {
         }
     }
 
-    public void verifyUsersConnectivity(){
+    private void verifyUsersConnectivity(){
         List<String> users = new ArrayList<String>();
         users.addAll(userManager.getUsers());
         boolean isActive = false;
         for(String user: users){
-            isActive = clientModule.ping(user);
-            if(isActive == false){
-                userManager.removeUser(user);
+            Iterator<Map.Entry<Integer, ClientModule>> iterator = clients.entrySet().iterator();
+            while (iterator.hasNext()){
+                Map.Entry<Integer, ClientModule> entry = iterator.next();
+                if(user.equals(entry.getValue())){
+                    try {
+                        entry.getValue().ping();
+                    } catch (NullPointerException e) {
+                        boolean wasRemoved = false;
+                        wasRemoved = userManager.removeUser(user);
+                        if(wasRemoved)iterator.remove();
+                    }
+                }
             }
         }
     }
 
-    public static void sendMessage(String message, String user){
-        messageHandler.sendMessage(message, user);
+    public static void sendMessage(String message, String user, ClientModule client){
+        client.getProducer().sendMessage(message, user);
     }
 
-    public static void addUser(String user){
-        userManager.addUser(user);
+    public static void addUser(ClientModule client){
+        boolean wasAdded = false;
+        wasAdded = userManager.addUser(client.getUser());
+        if(wasAdded) {
+            clients.put(id,client);
+            id++;
+            createProducer(client);
+            createConsumer(client);
+        }
+    }
+
+    private static void createProducer(ClientModule client){
+        Producer producer = new Producer(client.getUser());
+        client.setProducer(producer);
+    }
+
+    private static void createConsumer(ClientModule client){
+        Consumer consumer = new Consumer(client.getUser());
+        client.setConsumer(consumer);
     }
 }
