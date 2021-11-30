@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 
 public interface UserManagerInterface {
     boolean addUser(String user_) throws IOException, ParseException;
-    boolean removeUser(String user_);
+    boolean removeUser(String user_) throws IOException, ParseException;
     //void sendSignal(String user_, boolean signal);
 
 }
