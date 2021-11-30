@@ -15,22 +15,10 @@ import org.json.simple.parser.ParseException;
 public class UserManager implements UserManagerInterface {
 
     ClassLoader classLoader=this.getClass().getClassLoader();
-    InputStream inputStream=classLoader.getResourceAsStream("userList.json");
 
     @Override
     public boolean addUser(String user_) throws IOException, ParseException {
-        JSONParser jsonParser=new JSONParser();
-        Reader reader = new InputStreamReader(inputStream);
-        Object obj=jsonParser.parse(reader);
-        JSONArray userList=(JSONArray) obj;
-        List<String> nameList=new ArrayList<String>();
-
-        for(Object o:userList)
-        {
-            JSONObject user=(JSONObject) o;
-            String name=(String) user.get("user");
-            nameList.add(name);
-        }
+        List<String> nameList = parseJson();
 
         if(!nameList.contains(user_))
         {
@@ -44,8 +32,25 @@ public class UserManager implements UserManagerInterface {
         return false;
     }
 
+    private List<String> parseJson() throws IOException, ParseException {
+        InputStream inputStream= Files.newInputStream(Paths.get("classes", "userList.json"));
+        System.out.println(Paths.get("classes", "userList.json").toAbsolutePath());
+        JSONParser jsonParser = new JSONParser();
+        Reader reader = new InputStreamReader(inputStream);
+        Object obj = jsonParser.parse(reader);
+        JSONArray userList = (JSONArray) obj;
+        List<String> nameList = new ArrayList<String>();
+
+        for (Object o : userList) {
+            JSONObject user = (JSONObject) o;
+            String name = (String) user.get("user");
+            nameList.add(name);
+        }
+        reader.close();
+        return nameList;
+    }
+
     private void writeJson(List<String> users) throws IOException {
-        System.out.println(Paths.get("classes","userList.json").toAbsolutePath());
        OutputStream outputStream= Files.newOutputStream(Paths.get("classes","userList.json"));
        OutputStreamWriter outputStreamWriter=new OutputStreamWriter(outputStream);
        JSONArray jsonArray=new JSONArray();
@@ -60,7 +65,18 @@ public class UserManager implements UserManagerInterface {
     }
 
     @Override
-    public boolean removeUser(String user_){
+    public boolean removeUser(String user_) throws IOException, ParseException {
+        List<String> nameList = parseJson();
+
+        if(nameList.contains(user_))
+        {
+            nameList.remove(user_);
+            System.out.println(nameList);
+            writeJson(nameList);
+            return true;
+        }
+
+        System.out.println(nameList);
         return false;
     }
 }
