@@ -1,5 +1,7 @@
 package UserManager;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -34,6 +36,7 @@ public class UserManager implements UserManagerInterface {
         {
             nameList.add(user_);
             System.out.println(nameList);
+            writeJson(nameList);
             return true;
         }
 
@@ -41,10 +44,19 @@ public class UserManager implements UserManagerInterface {
         return false;
     }
 
-    private void writeJson(List<String> users){
-       InputStream inputStream=classLoader.getResourceAsStream("userList.json");
-
-
+    private void writeJson(List<String> users) throws IOException {
+        System.out.println(Paths.get("classes","userList.json").toAbsolutePath());
+       OutputStream outputStream= Files.newOutputStream(Paths.get("classes","userList.json"));
+       OutputStreamWriter outputStreamWriter=new OutputStreamWriter(outputStream);
+       JSONArray jsonArray=new JSONArray();
+       for(String user:users)
+       {
+           JSONObject o=new JSONObject();
+           o.put("user",user);
+           jsonArray.add(o);
+       }
+       outputStreamWriter.write(jsonArray.toJSONString());
+       outputStreamWriter.flush();
     }
 
     @Override
