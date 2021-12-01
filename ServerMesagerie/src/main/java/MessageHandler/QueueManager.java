@@ -10,16 +10,18 @@ class QueueManager {
     private final int MAX_NUMBER_OF_MESSAGES = 1000;
 
     public QueueManager(){
-        this.messagesCounter = 0;
-        this.messageQueue = new LinkedList<String>();
+        messagesCounter = 0;
+        messageQueue = new LinkedList<>();
     }
 
-    public void checkQueue(String message) {
+    public boolean checkQueue(String message) {
         if(queueIsFull(messagesCounter)){
             removeMessage();
             addMessage(message);
         }
         else addMessage(message);
+
+        return true;
     }
 
     private void removeMessage() {
