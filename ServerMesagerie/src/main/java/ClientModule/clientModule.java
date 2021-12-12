@@ -4,14 +4,21 @@ class clientModule implements clientModuleInterface{
     private Producer producer;
     private Consumer consumer;
     private String user;
+    private final ScheduledExecutorService clientScheduler = Executors.newScheduledThreadPool(1);
 
     public String getUser(){
         return this.user;
     }
 
-    public clientModule(String user_){
-        this.user = user_;
-        addUser(user_);
+    public clientModule(String user_) throws IOException, TimeoutException, ParseException {
+        user = user_;
+        producer = new Producer();
+        consumer = new Consumer(user);
+        consumer.setMessageHandler(producer.getMessageHandler());
+
+        sendMessage(Constants.ADD_USER_COMMAND + ":" + user, Constants.SERVER_NAME);
+        ping();
+        consumer.getMessage();
     }
 
     public void setProducer(Producer producer_) {
@@ -31,8 +38,8 @@ class clientModule implements clientModuleInterface{
     }
 
     @Override
-    public void sendMessage(String message_, String user_){
-        Server.sendMessage(message_, user_);
+    public void sendMessage(String message_, String user_) throws IOException, TimeoutException {
+        producer.sendMessage(message_, user_);
     }
 
     @Override
@@ -41,8 +48,16 @@ class clientModule implements clientModuleInterface{
     }
 
     @Override
-    public boolean ping(){
-        return true;
+    public void ping(){
+        final Runnable = () -> {
+            try {
+                sendMessage(Constants.RETRIGGER_WAQTCHDOG_COMMAND + ":" + user, Constants.SERVER_NAME);
+            } catch (IOException | TimeoutException e){
+                e.printStackTrace();
+            }
+        };
+
+        clientScheduler.scheduleAtFixedRate(runnable, Constants.ZERO_SECONDS, Constants.ONE_SECOND/2, TimeUnit.MILLISECONDS);
     }
 
 }
