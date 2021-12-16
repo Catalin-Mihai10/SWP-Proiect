@@ -1,8 +1,10 @@
 package Producer;
+import Utilitati.ConstructMessage;
+
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 interface IProducer{
-    public void sendMessage(String message, String user) throws IOException, TimeoutException;
-    public void closeConnection() throws IOException;
+    String sendMessage(ConstructMessage constructMessage) throws IOException, TimeoutException;
+    void closeConnection() throws IOException, TimeoutException;
 }
