@@ -76,6 +76,7 @@ public class UserManager implements UserManagerInterface {
         return false;
     }
 
+    @Override
     public List<String> getUsers() throws IOException, ParseException {
         List<String> nameList = parseJson();
         return nameList;
