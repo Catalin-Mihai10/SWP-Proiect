@@ -7,26 +7,28 @@ import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 class Producer implements IProducer{
-    //private MessageHandler messageHandler;
-
+    private MessageHandler messageHandler;
     private Connection producerConnection;
     private Channel producerChannel;
 
     public Producer() throws IOException, TimeoutException {
+        messageHandler = new MessageHandler();
         ConnectionFactory producerFactory = new ConnectionFactory();
-        producerFactory.setHost("localhost");
+        producerFactory.setHost(Constants.LOCAL_HOST);
 
         producerConnection = producerFactory.newConnection();
         producerChannel = producerConnection.createChannel();
     }
 
     @Override
-    public void sendMessage(String message, String user) throws IOException, TimeoutException{
-            //messageHandler.sendMessage(producerChannel, message, user);
+    public String sendMessage(ConstructMessage constructMessage){
+        return messageHandler.sendMessage(producerChannel, constructMessage);
     }
 
     @Override
-    public void closeConnection() throws IOException{
+    public void closeConnection() throws IOException, TimeoutException {
+        producerChannel.close();
         producerConnection.close();
     }
+
 }
