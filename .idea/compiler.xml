@@ -9,5 +9,8 @@
         <module name="ServerMesagerie" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ServerMesagerie" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>
