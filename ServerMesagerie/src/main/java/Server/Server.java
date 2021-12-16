@@ -60,7 +60,7 @@ public final class Server extends Thread{
         }
     }
 
-    public static boolean addUser(String user) throws IOException, TimeoutException, ParseException {
+    private static boolean addUser(String user) throws IOException, TimeoutException, ParseException {
         boolean wasAdded;
 
         wasAdded = userManager.addUser(user);
@@ -85,7 +85,7 @@ public final class Server extends Thread{
         return false;
     }
 
-    public static void setTimestampToUSer(String timestamp, String user){
+    private static void setTimestampToUSer(String timestamp, String user){
         Iterator<Map.Entry<String, Long>> iterator = clients.entrySet().iterator();
 
         while (iterator.hasNext()){

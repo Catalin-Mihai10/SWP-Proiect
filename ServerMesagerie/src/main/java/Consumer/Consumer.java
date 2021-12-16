@@ -23,6 +23,7 @@ public class Consumer implements IConsumer{
         consumerChannel = consumerConnection.createChannel();
     }
 
+    @Override
     public void getMessage() {
         Thread thread = new Thread(() -> {
                 try {
@@ -43,6 +44,7 @@ public class Consumer implements IConsumer{
         thread.start();
     }
 
+    @Override
     public void subscribeToTopic() {
         Thread thread = new Thread(() -> {
             try {
@@ -69,6 +71,7 @@ public class Consumer implements IConsumer{
         thread.start();
     }
 
+    @Override
     public void closeConnection() throws IOException, TimeoutException {
         consumerChannel.close();
         consumerConnection.close();
