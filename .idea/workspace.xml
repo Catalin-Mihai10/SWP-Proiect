@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="186ee611-de30-4b0f-be9e-815c1996b107" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/ServerMesagerie/src/main/java/Consumer/Consumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/ServerMesagerie/src/main/java/Consumer/Consumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerMesagerie/src/main/java/Consumer/IConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/ServerMesagerie/src/main/java/Consumer/IConsumer.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="TaskManager">
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+</project>
