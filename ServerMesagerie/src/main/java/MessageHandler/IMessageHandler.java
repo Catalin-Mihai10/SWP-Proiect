@@ -1,8 +1,10 @@
 package MessageHandler;
 
+import java.nio.channels.Channel;
+import ConstructMessage.ConstructMessage;
+
 interface IMessageHandler {
 
-    public void sendMessage(String message, String user);
-    public void postTopic();
-    public String getMessage();
+    public void sendMessage(Channel channel, ConstructMessage constructMessage);
+    public void postTopic(Channel channel, String message, String queueName);
 }
