@@ -1,11 +1,16 @@
 package ClientModule;
 
-interface clientModuleInterface {
-    void sendMessage(String message_, String user_);
-    void setProducer(Producer producer_);
+import Exceptions.UserIsOfflineException;
+import Producer.Producer;
+import Consumer.Consumer;
+import Utilitati.ConstructMessage;
+
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
+
+public interface IClientModule {
+    String sendMessage(ConstructMessage constructMessage) throws IOException, TimeoutException, UserIsOfflineException;
     Producer getProducer();
-    void setConsumer(Consumer consumer_)
     Consumer getConsumer();
-    void addUser();
-    boolean ping();
+    void ping();
 }
